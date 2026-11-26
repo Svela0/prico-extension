@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Prico</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <script src="tema.js"></script>
+  </head>
+  <body>
+    <div class="header">
+      <div class="brand">
+        <img src="images/prico.svg" alt="Prico" class="logo" />
+        <span class="brand-name">Prico</span>
+      </div>
+      <div class="header-actions">
+        <!-- Sun = light, moon = dark. The choice is stored (tema.js reads it
+             before the first paint) and the toast on the page follows it. -->
+        <button class="gear-btn" id="theme-btn" type="button" aria-label="Bytt mellom lyst og mørkt utseende" title="Lyst eller mørkt">
+          <svg class="tema-ikon tema-sol" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
+            <circle cx="10" cy="10" r="3.4" />
+            <path d="M10 2.2v1.9M10 15.9v1.9M2.2 10h1.9M15.9 10h1.9M4.5 4.5l1.3 1.3M14.2 14.2l1.3 1.3M4.5 15.5l1.3-1.3M14.2 5.8l1.3-1.3" />
+          </svg>
+          <svg class="tema-ikon tema-maane" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
+            <path d="M16.4 11.9A6.7 6.7 0 0 1 8.1 3.6a6.7 6.7 0 1 0 8.3 8.3z" />
+          </svg>
+        </button>
+        <button class="gear-btn" id="stores-btn" type="button" aria-label="Butikker vi følger" title="Butikker vi følger" aria-expanded="false">
+          <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
+            <path d="M3.5 8.5V16h13V8.5M2.5 8.5 4 4h12l1.5 4.5zM8 16v-4h4v4" />
+          </svg>
+        </button>
+        <button class="gear-btn" id="settings-btn" type="button" aria-label="Innstillinger" title="Innstillinger" aria-expanded="false">
+          <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
+            <path d="M3 6h7.5M15.5 6H17M3 14h1.5M9.5 14H17" />
+            <circle cx="13" cy="6" r="2.3" />
+            <circle cx="7" cy="14" r="2.3" />
+          </svg>
+        </button>
+        <button class="close-btn" type="button" aria-label="Lukk">
+          <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
+            <path d="M5 5l10 10M15 5L5 15" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Innstillinger – skjult til tannhjulet trykkes. Begge valgene huskes
+         i chrome.storage:
+           minRabatt  – varselet på sida vises bare når det billigste
+                        alternativet er minst så mange prosent lavere
+           showOutlet – om outlet-/B-varer (brukt, demo, utgått) skal tas med
+           showOe     – om OE-treff (tilsvarende bildeler) skal tas med
+           medlem     – om medlemspriser (kundeklubb) skal brukes -->
+    <div class="settings-panel" id="settings-panel" hidden>
+      <div class="setting-row" title="Varselet på nettsida vises bare når det billigste alternativet er minst så mange prosent lavere enn prisen du ser på">
+        <span class="setting-label">Varsle ved minst</span>
+        <input type="number" id="min-rabatt" min="0" max="90" step="1" inputmode="numeric" aria-label="Minste prisforskjell i prosent" />
+        <span class="setting-label">% lavere pris</span>
+      </div>
+      <label class="setting-row outlet-switch" title="Outlet- og B-varer er billigere fordi varen er brukt, demo eller utgått">
+        <span class="setting-label grow">Vis outlet og B-varer</span>
+        <span class="switch-state" id="outlet-state">Av</span>
+        <input type="checkbox" id="show-outlet" />
+        <span class="slider"></span>
+      </label>
+      <!-- Bildeler: treff funnet via OE-nummer er TILSVARENDE del (kan være
+           annet merke). Av = bare treff på strekkode/varenummer, som for
+           alle andre butikker. Lagres som showOe (på som standard). -->
+      <label class="setting-row outlet-switch" title="På: vis deler som passer via OE-nummer, også fra andre merker. Av: bare nøyaktig samme vare (strekkode/varenummer)">
+        <span class="setting-label grow">Vis OE-match (bildeler)</span>
+        <span class="switch-state" id="oe-state">På</span>
+        <input type="checkbox" id="show-oe" />
+        <span class="slider"></span>
+      </label>
+      <!-- Medlemspris: mange butikker (Vita, Elkjøp, Intersport, Jernia,
+           Apotek 1, Anton Sport, Blivakker ...) har en lavere pris for
+           medlemmer i kundeklubben. Av = alle priser er det alle betaler.
+           På = begge sider sammenlignes med den laveste av vanlig pris og
+           medlemspris, og treff merkes «Medlemspris». Lagres som medlem. -->
+      <label class="setting-row outlet-switch" title="På: bruk medlemspris der butikken har kundeklubb (du må være medlem for å få den). Av: bare prisen alle betaler">
+        <span class="setting-label grow">Jeg er medlem i kundeklubbene</span>
+        <span class="switch-state" id="medlem-state">Av</span>
+        <input type="checkbox" id="show-medlem" />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- Butikkene vi følger – lista bygges av connector.js fra STORE_NAMES,
+         så den er alltid lik butikkene utvidelsen faktisk kan vise. -->
+    <div class="settings-panel" id="stores-panel" hidden>
+      <p class="stores-heading" id="stores-heading"></p>
+      <div class="stores-grid" id="stores-grid"></div>
+    </div>
+
+    <div id="product-list"></div>
+
+    <script src="close_handler.js"></script>
+    <script src="connector.js"></script>
+  </body>
+</html>

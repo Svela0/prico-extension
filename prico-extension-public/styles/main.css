@@ -1,0 +1,987 @@
+/* Prico popup – same look as prico.no (20 Oct 2026): Inter, off-white
+   page, white cards with hairline borders, black as the accent. The tag
+   colours (outlet yellow, OE blue, member/EL green) keep their meaning. */
+/* THE FONT IS IN THE PACKAGE (1.13, 25 Nov 2026): fonts/inter-latin*.woff2, the variable Inter
+   (SIL Open Font License, fonts/LICENSE-inter.txt). Until 1.12 this file fetched it from
+   Google's servers each time the window opened, which shows Google the user's IP address.
+   The extension fetches nothing from Google now; do not put such a line back. */
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 100 900; font-display: swap;
+  src: url("../fonts/inter-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 100 900; font-display: swap;
+  src: url("../fonts/inter-latin.woff2") format("woff2"); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+
+/* COLOURS (1.8, 16 Nov 2026; BLUE since 24 Nov 2026, with prico.no - the owner chose
+   the blue design, and the extension follows the site: hue 262, the logo's blue. What
+   is said below about the teal's contrast was the reason for the shades of 1.8).
+   Built in OKLCH from one hue, so steps of equal
+   lightness look equal, and every border, divider and hover is an alpha
+   colour that sits right on any surface in both themes. The accent is a
+   shade darker than the old #0d9488: white text on that was 3.7:1, under
+   the 4.5:1 small text needs. --faint was #9a9a95 (2.8:1 on white) and is
+   now readable too. The dark theme shows depth with lighter surfaces
+   (page < card < raised), not shadows. tema.js sets data-tema on <html>. */
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --ink: oklch(0.228 0.037 265);
+  --muted: oklch(0.49 0.044 266);
+  --faint: oklch(0.53 0.045 266);
+  --line: rgb(0 0 0 / 0.11);
+  --line-strong: rgb(0 0 0 / 0.22);
+  --card: #ffffff;
+  --raised: oklch(0.975 0.01 266);
+  --hover: rgb(0 0 0 / 0.05);
+  --accent: oklch(0.52 0.194 261.5);
+  --on-accent: #ffffff;
+  --accent-ink: oklch(0.428 0.162 262);
+  --accent-bg: oklch(0.95 0.025 262);
+  --accent-line: oklch(0.52 0.194 261.5 / 0.2);
+  --accent-hover: oklch(0.52 0.194 261.5 / 0.1);
+  --good: oklch(0.47 0.11 160);
+  --good-bg: oklch(0.94 0.03 262);
+  --tile: oklch(0.93 0.028 262);
+  --switch-off: rgb(0 0 0 / 0.2);
+  --knob: #ffffff;
+  --tag-l: 0.94;
+  --tag-c: 0.055;
+  --tag-ink-l: 0.42;
+  --tag-ink-c: 0.1;
+}
+html[data-tema="mork"] {
+  color-scheme: dark;
+  --bg: oklch(0.2 0.022 266);
+  --ink: oklch(0.96 0.008 266);
+  --muted: oklch(0.8 0.02 266);
+  --faint: oklch(0.72 0.025 266);
+  --line: rgb(255 255 255 / 0.12);
+  --line-strong: rgb(255 255 255 / 0.26);
+  --card: oklch(0.25 0.026 266);
+  --raised: oklch(0.29 0.03 266);
+  --hover: rgb(255 255 255 / 0.07);
+  --accent: oklch(0.76 0.12 262);
+  --on-accent: oklch(0.18 0.04 266);
+  --accent-ink: oklch(0.87 0.075 262);
+  --accent-bg: oklch(0.32 0.06 264);
+  --accent-line: oklch(0.76 0.12 262 / 0.24);
+  --accent-hover: oklch(0.76 0.12 262 / 0.14);
+  --good: oklch(0.82 0.12 160);
+  --good-bg: oklch(0.36 0.06 264);
+  --tile: #ffffff;
+  --switch-off: rgb(255 255 255 / 0.24);
+  --knob: oklch(0.2 0.022 266);
+  --tag-l: 0.38;
+  --tag-c: 0.06;
+  --tag-ink-l: 0.9;
+  --tag-ink-c: 0.09;
+}
+
+/* Chrome caps a popup at 600 px and scrolls the document itself, so the
+   scrolling lives on html, not body: body keeps growing with the list and
+   html shows a thin single-line scrollbar only when there is more below. */
+html {
+  background: var(--bg);
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* NO SCROLLBAR (owner, 16 Nov 2026). On Windows the bar is 15 px wide
+     and takes its room from the content, so everything jumped sideways
+     each time a chart or a long list made the window scroll. The window
+     still scrolls (wheel, touch, keys); the fade at the bottom
+     (html.mer-under) says there is more. */
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+html::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 2px;
+}
+html::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  width: 340px;
+  padding: 14px;
+  background-color: var(--bg);
+  color: var(--ink);
+  margin: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header-seksjonen med logo */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 4px;
+}
+
+/* Logo + navn i header */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo {
+  height: 38px;
+  width: auto;
+  margin: -4px 0;
+}
+.brand-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.03em;
+}
+.brand-accent {
+  color: var(--ink);
+}
+
+/* Container for produktlisten */
+#product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Hver enkelt forhandler-linje */
+.content-line {
+  padding: 12px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  background-color: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  transition: all 0.15s ease;
+}
+
+.content-line p {
+  margin: 0;
+}
+
+.content-line.clickable {
+  cursor: pointer;
+}
+
+/* Hover: as the site's pills - a shade darker border, same card */
+.content-line.clickable:hover {
+  background-color: var(--hover);
+  border-color: var(--line-strong);
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 22px;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 6px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  color: var(--ink);
+  background-color: var(--hover);
+}
+
+/* --- Outlet-bryter i headeren ------------------------------------------
+   Outlet/B-vare er billigere fordi varen er brukt, demo eller utgått.
+   Brukeren bestemmer selv om slike skal vises. */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.outlet-switch {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.outlet-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.outlet-switch .slider {
+  position: relative;
+  width: 32px;
+  height: 18px;
+  background: var(--switch-off);
+  border-radius: 999px;
+  transition: background 0.18s ease;
+  flex: 0 0 auto;
+}
+
+.outlet-switch .slider::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  background: var(--knob);
+  border-radius: 50%;
+  transition: transform 0.18s ease;
+}
+
+.outlet-switch input:checked + .slider {
+  background: var(--accent);
+}
+
+.outlet-switch input:checked + .slider::after {
+  transform: translateX(14px);
+}
+
+.outlet-switch input:focus-visible + .slider {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+
+/* Merke på selve tilbudet, så det aldri er tvil om hva prisen gjelder */
+.outlet-tag {
+  display: inline-block;
+  vertical-align: 2px;
+  margin-left: 6px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: oklch(var(--tag-l) var(--tag-c) 80);
+  color: oklch(var(--tag-ink-l) var(--tag-ink-c) 80);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Bildeler funnet via OE-nummer (tilsvarende del, ikke samme artikkel) */
+.oe-tag {
+  display: inline-block;
+  vertical-align: 2px;
+  margin-left: 6px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: oklch(var(--tag-l) var(--tag-c) 255);
+  color: oklch(var(--tag-ink-l) var(--tag-ink-c) 255);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Medlemspris (kundeklubb) – prisen gjelder bare for medlemmer */
+.medlem-tag {
+  display: inline-block;
+  vertical-align: 2px;
+  margin-left: 6px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: oklch(var(--tag-l) var(--tag-c) 155);
+  color: oklch(var(--tag-ink-l) var(--tag-ink-c) 155);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Butikkpanelet */
+.stores-heading {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.stores-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 10px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+/* --- Rows (27 Oct 2026 redesign) -----------------------------------------
+   One card per shop: name and the 30-day line on the left, price and
+   saving on the right, and behind a thin divider at the right end the
+   chart segment that opens the history panel inside the same card. The
+   page the user is on gets a tinted card on top. The card's own padding
+   moves to the segments so the divider runs the full height. */
+/* (the accent colours live with the others at the top of the file) */
+.content-line {
+  padding: 0;
+  overflow: hidden;
+}
+.content-line > p {
+  padding: 12px 14px;
+}
+.line-row {
+  display: flex;
+  align-items: stretch;
+}
+.line-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 11px 12px 11px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background-color 0.15s ease;
+}
+.line-main.clickable {
+  cursor: pointer;
+}
+.line-main.clickable:hover {
+  background-color: var(--hover);
+}
+.line-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.store-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.lavest {
+  margin-top: 2px;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lavest-naa {
+  color: var(--good);
+}
+.line-price {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+.price {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.spar-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--good-bg);
+  color: var(--accent-ink);
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.best-line {
+  border-color: var(--good);
+}
+/* The card for the page you are on */
+.anchor-line {
+  background: var(--accent-bg);
+  border-color: var(--accent-line);
+  border-radius: 16px;
+}
+.anchor-line .line-main {
+  cursor: default;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 12px 14px;
+}
+.anchor-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.anchor-price {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.anchor-low {
+  font-size: 11px;
+  color: var(--accent-ink);
+}
+.anchor-line .hist-btn {
+  border-left-color: var(--accent-line);
+  color: var(--accent-ink);
+}
+.anchor-line .hist-btn:hover {
+  background: var(--accent-hover);
+}
+.anchor-line .hist-btn-open,
+.anchor-line .hist-btn-open:hover {
+  color: var(--on-accent);
+  background: var(--accent);
+  border-left-color: var(--accent);
+}
+.anchor-line .hist-panel {
+  border-top-color: var(--accent-line);
+}
+.section-label {
+  margin: 6px 2px -2px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.hist-btn {
+  flex: 0 0 auto;
+  width: 40px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-left: 1px solid var(--line);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.hist-btn:hover {
+  color: var(--accent-ink);
+  background: var(--hover);
+}
+.hist-btn-open,
+.hist-btn-open:hover {
+  color: var(--on-accent);
+  background: var(--accent);
+  border-left-color: var(--accent);
+}
+.hist-panel {
+  padding: 10px 12px 10px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--muted);
+  cursor: default;
+}
+.hist-head {
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: var(--ink);
+}
+.hist-head b {
+  font-weight: 600;
+}
+.hist-chart {
+  position: relative;
+  margin: 0 -4px;
+}
+.hist-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.hist-stop {
+  stop-color: var(--accent);
+}
+.hist-area {
+  stroke: none;
+}
+.hist-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+.hist-grid {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+.hist-axis {
+  font-size: 9px;
+  fill: var(--faint);
+}
+.hist-marker {
+  stroke: var(--muted);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+.hist-dot {
+  fill: var(--card);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+.hist-tip {
+  position: absolute;
+  z-index: 2;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 10px;
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+}
+/* Under the chart: the period buttons on the left, the numbers on the right */
+.hist-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 4px;
+}
+.hist-periods {
+  display: flex;
+  gap: 4px;
+  flex: 0 0 auto;
+}
+.hist-stats {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: right;
+  font-size: 10px;
+  line-height: 1.35;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.hist-stats b {
+  font-weight: 600;
+  color: var(--ink);
+}
+.hist-period {
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--muted);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+.hist-period:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+.hist-period-on,
+.hist-period-on:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+/* Fotnote om frakt under tilbudslista */
+.frakt-note {
+  margin: 4px 0 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--raised);
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* --- Terskel for varselet ---------------------------------------------
+   «Varsle ved minst N % lavere pris». Lagres i chrome.storage (minRabatt)
+   og leses av background.js før det avgjør om ruta på sida skal vises. */
+.settings-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: -6px 0 12px;
+}
+
+#product-list[hidden] {
+  display: none;             /* lista vekk mens innstillingene er åpne */
+}
+
+.settings-panel[hidden] {
+  display: none;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 9px 12px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.setting-label.grow {
+  flex: 1 1 auto;
+}
+
+.switch-state {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--faint);
+  min-width: 22px;
+  text-align: right;
+}
+
+.switch-state.on {
+  color: var(--ink);
+}
+
+/* Tannhjulet i headeren åpner og lukker innstillingene */
+.gear-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.gear-btn:hover,
+.gear-btn[aria-expanded="true"] {
+  color: var(--ink);
+  background-color: var(--hover);
+}
+
+.setting-label {
+  white-space: nowrap;
+}
+
+#min-rabatt {
+  width: 52px;
+  padding: 4px 6px;
+  font: inherit;
+  font-weight: 600;
+  text-align: center;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+#min-rabatt:focus {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+  border-color: var(--ink);
+}
+
+
+/* ==========================================================================
+   1.8 (16 Nov 2026): header icons, theme button, shop logos, the product
+   header, the offers as one group.
+   ========================================================================== */
+
+/* HEADER ICONS are drawn as strokes in the weight of the text beside them
+   (1.75 next to the 600-weight name), not filled shapes. */
+.gear-btn,
+.close-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0;
+}
+.gear-btn svg,
+.close-btn svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.header-actions {
+  gap: 2px;
+}
+.gear-btn:focus-visible,
+.close-btn:focus-visible,
+.hist-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* SUN AND MOON. Both icons sit on top of each other; the one that is not
+   the current theme fades out blurred and slightly turned, so the swap
+   reads as one icon becoming the other. */
+#theme-btn {
+  position: relative;
+}
+#theme-btn .tema-ikon {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  /* the incoming icon lands with the toast's overshoot */
+  transition: opacity 0.22s ease, filter 0.22s ease,
+    transform 0.42s cubic-bezier(0.2, 0.9, 0.3, 1.4);
+}
+#theme-btn .tema-maane,
+html[data-tema="mork"] #theme-btn .tema-sol {
+  opacity: 0;
+  filter: blur(4px);
+  transform: scale(0.45) rotate(-70deg);
+}
+#theme-btn:active {
+  transform: scale(0.88);
+}
+/* The theme switch (connector.js): the whole window cross-fades evenly
+   from the old look to the new one. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.4s;
+  animation-timing-function: ease-in-out;
+}
+/* No View Transitions: every colour fades. */
+html.tema-bytter,
+html.tema-bytter * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease,
+    fill 0.3s ease, stroke 0.3s ease, box-shadow 0.3s ease !important;
+}
+html[data-tema="mork"] #theme-btn .tema-maane {
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  #theme-btn .tema-ikon {
+    transition: none;
+  }
+}
+
+/* SHOP LOGOS, served from prico.no/logos/<retailer>.png (connector.js:
+   logoEl). Always on a white tile: most logos are drawn for white. A shop
+   without a file gets its first letter. */
+.store-logo {
+  flex: 0 0 auto;
+  /* 35 % bigger than the first 1.8 build (24 px), owner 16 Nov 2026 */
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #ffffff;
+  object-fit: contain;
+  /* no outline round the logo (owner, 16 Nov 2026) */
+}
+.store-logo.mono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-bg);
+  color: var(--accent-ink);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+}
+.store-logo.liten {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+/* OPENING A PANEL (16 Nov 2026): the settings, the shop list, the offers
+   coming back and a price-history chart fade in, with the timing of the
+   theme switch. Opacity only: nothing moves, so nothing can spill over
+   the edge while it runs. (Not a View Transition - see medOvergang in
+   connector.js.) While a chart is being fetched its button breathes. */
+@keyframes vis-inn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.settings-panel:not([hidden]),
+#product-list:not([hidden]),
+.hist-panel:not([hidden]) {
+  animation: vis-inn 0.4s ease-in-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .settings-panel:not([hidden]),
+  #product-list:not([hidden]),
+  .hist-panel:not([hidden]) {
+    animation: none;
+  }
+}
+@keyframes hist-henter {
+  50% { opacity: 0.35; }
+}
+.hist-btn-henter {
+  animation: hist-henter 0.9s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hist-btn-henter {
+    animation: none;
+  }
+}
+.anchor-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* THE PRODUCT, above "Du er her" in the same card: picture and name of the
+   page the user is on (anker_bilde / anker_navn from /prices). The picture
+   sits on a tinted tile with mix-blend-mode: multiply, so a product shot
+   on white loses its white box. In the dark theme the tile is white and
+   the picture is left as it is - multiply on a dark surface turns the
+   whole picture dark. */
+.produkt-hode {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px 10px 10px;
+  border-bottom: 1px solid var(--accent-line);
+}
+.produkt-bilde {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;          /* the card's 16 minus its 10 px padding */
+  background: var(--tile);
+  overflow: hidden;
+}
+.produkt-bilde img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+html[data-tema="mork"] .produkt-bilde img {
+  mix-blend-mode: normal;
+}
+.produkt-navn {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* THE OFFERS AS ONE GROUP. One bordered box (16 px corner, 4 px padding)
+   holding the rows (12 px corner = 16 - 4), no line between them; the
+   cheapest row is tinted and tagged. The chart button is a small icon
+   button at the row's end instead of a full-height segment. */
+.offers {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.offers .content-line {
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+}
+.offers .content-line:hover {
+  background: var(--hover);
+}
+.offers .content-line.best-line,
+.offers .content-line.best-line:hover {
+  background: var(--accent-bg);
+}
+.offers .line-main,
+.offers .line-main.clickable:hover {
+  background: transparent;
+  padding: 9px 6px 9px 10px;
+}
+.offers .line-row {
+  align-items: center;
+}
+.offers .hist-btn {
+  width: 32px;
+  height: 32px;
+  margin-right: 6px;
+  border-left: none;
+  border-radius: 8px;
+}
+.offers .hist-panel {
+  border-top-color: var(--line);
+}
+.billigst-tag {
+  display: inline-block;
+  vertical-align: 2px;
+  margin-left: 6px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.best-line .spar-pill {
+  background: var(--card);
+}
+.dyrere {
+  font-size: 10.5px;
+  color: var(--faint);
+  white-space: nowrap;
+}
+.price {
+  font-variant-numeric: tabular-nums;
+}
+.logo {
+  height: 30px;
+}
+.brand-name {
+  font-size: 19px;
+}
+.header {
+  margin-bottom: 12px;
+}
+
+/* MORE BELOW (connector.js sets html.mer-under while the list continues
+   under the window's bottom edge): the last 72 px fade into the
+   background, so a row cut by the edge reads as "there is more". */
+body::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom in oklch, transparent, var(--bg) 92%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+html.mer-under body::after {
+  opacity: 1;
+}

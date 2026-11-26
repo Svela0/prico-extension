@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="utf-8" />
+  <title>Velkommen til Prico</title>
+  <style>
+    /* Inter from the package since 1.13 (see styles/main.css): nothing is fetched from Google. */
+    @font-face { font-family: "Inter"; font-style: normal; font-weight: 100 900; font-display: swap;
+      src: url("fonts/inter-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+    @font-face { font-family: "Inter"; font-style: normal; font-weight: 100 900; font-display: swap;
+      src: url("fonts/inter-latin.woff2") format("woff2"); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+    /* Same look as prico.no and the popup (25 Oct 2026): off-white
+       page, Inter, light headline, hairline cards; the blue of prico.no since 24 Nov 2026. */
+    :root { --bg: oklch(0.973 0.013 266); --ink: oklch(0.228 0.037 265); --muted: oklch(0.49 0.044 266); --faint: oklch(0.62 0.04 266); --line: oklch(0.228 0.037 265 / 0.14); --card: #fff; --accent: oklch(0.52 0.194 261.5); }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased;
+      display: flex; justify-content: center; padding: 48px 16px;
+    }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+      max-width: 560px; width: 100%; padding: 40px;
+    }
+    .logo { display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
+    .logo img { width: 36px; height: 36px; }
+    .logo span { font-size: 28px; font-weight: 600; letter-spacing: -0.03em; }
+    h1 { font-size: 30px; font-weight: 300; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 10px; }
+    p.lead { color: var(--muted); font-size: 15px; margin-bottom: 28px; line-height: 1.5; }
+    .step { display: flex; gap: 14px; margin-bottom: 18px; align-items: flex-start; }
+    .num {
+      background: var(--accent); color: #fff; font-weight: 500; font-size: 14px;
+      width: 26px; height: 26px; border-radius: 50%; flex: 0 0 26px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step div b { display: block; margin-bottom: 2px; font-weight: 500; }
+    .step div span { color: var(--muted); font-size: 14px; line-height: 1.45; }
+    /* Regelen over gjelder overskrifta i hvert steg. Uten denne traff den
+       ogsa <b id="antall-butikker"> inne i setninga, og «49» ble en egen
+       linje midt i «Sammenligner varer mot 49 norske nettbutikker». */
+    .step div span b { display: inline; margin: 0; }
+    /* Forhåndsvisning: en liten falsk nettleser som viser HVOR varselet
+       kommer og hvordan det ser ut. Uten den må folk gjette – og et varsel
+       de ikke kjenner igjen, lukker de. */
+    .forhandsvisning { margin: 22px 0 4px; }
+    .nettleser {
+      border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+      background: #fff;
+    }
+    .nettleser-bar {
+      display: flex; align-items: center; gap: 6px;
+      background: oklch(0.982 0.007 266); padding: 7px 10px; border-bottom: 1px solid var(--line);
+    }
+    .prikk { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+    .adresse {
+      flex: 1; margin-left: 6px; background: #fff; border: 1px solid var(--line);
+      border-radius: 5px; font-size: 10.5px; color: var(--faint);
+      padding: 3px 8px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+    }
+    .nettleser-side { position: relative; padding: 16px; min-height: 132px; display: flex; gap: 14px; }
+    .vare-bilde { width: 62px; height: 74px; border-radius: 6px; background: oklch(0.95 0.015 266); flex: 0 0 62px; }
+    .vare-linjer { flex: 1; padding-top: 4px; }
+    .linje { height: 8px; border-radius: 4px; background: oklch(0.93 0.018 266); margin-bottom: 8px; }
+    .linje.kort { width: 42%; }
+    .linje.pris { width: 30%; height: 13px; background: oklch(0.89 0.022 266); margin-top: 12px; }
+
+    /* Selve varselet – samme farger og former som det ekte i content.js (1.8:
+       OKLCH-grønn med svak gradient, skillelinje foran prisen, 18/10 px
+       hjørner nedskalert, større Prico-merke). */
+    .mini-toast {
+      position: absolute; top: 10px; right: 10px; width: 268px; max-width: calc(100% - 20px);
+      background: #fff; border: 1px solid rgb(0 0 0 / 0.1); border-radius: 13px;
+      box-shadow: 0 1px 2px rgb(0 0 0 / 0.05), 0 14px 34px rgb(0 0 0 / 0.12);
+      padding: 6px; transform-origin: top right;
+      animation: spretteInn 5s ease-in-out infinite;
+    }
+    .mini-topp { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .mini-topp .venstre { display: flex; align-items: center; gap: 6px; min-width: 0; }
+    .mini-topp { padding: 1px 2px 0 3px; }
+    .mini-topp img { width: 17px; height: 17px; }
+    .mini-tittel { font-size: 13px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mini-tittel b { font-weight: 600; }
+    .mini-lukk { color: var(--faint); font-size: 15px; line-height: 1; }
+    .mini-knapp {
+      display: flex; align-items: stretch; justify-content: space-between;
+      background: linear-gradient(180deg in oklch, oklch(0.55 0.19 261), oklch(0.49 0.19 262));
+      background-color: oklch(0.52 0.194 261.5); color: #fff; border-radius: 7px;
+      margin-top: 4px; font-weight: 500; font-size: 11.5px; line-height: 1.25;
+    }
+    .mini-knapp > span { display: flex; align-items: center; padding: 8px 9px; }
+    .mini-knapp > span:first-child { flex: 1 1 auto; white-space: nowrap; gap: 3px; }
+    .mini-knapp b { font-weight: 700; }
+    .mini-knapp .belop {
+      flex: 0 0 auto; border-left: 1px solid rgb(255 255 255 / 0.28);
+      font-size: 13.5px; font-weight: 700; white-space: nowrap;
+    }
+    .mini-spar {
+      display: flex; align-items: center; justify-content: space-between; gap: 6px;
+      margin-top: 7px; padding: 0 2px; font-size: 10.5px; color: var(--faint);
+    }
+    .mini-spar .pille {
+      background: oklch(0.94 0.03 262); color: oklch(0.4 0.16 262); font-weight: 700; padding: 2px 7px; border-radius: 999px;
+    }
+
+    /* Den samme bevegelsen som det ekte varselet: 0.85 -> 1 med et lite
+       oversving. Her går den i sløyfe, så man rekker å se den. */
+    @keyframes spretteInn {
+      0%, 6%    { transform: scale(.85); opacity: 0; }
+      16%, 82%  { transform: scale(1);   opacity: 1; }
+      92%, 100% { transform: scale(.85); opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mini-toast { animation: none; }
+    }
+    .bildetekst { font-size: 12.5px; color: var(--faint); text-align: center; margin-top: 8px; }
+
+    /* Panelet som åpnes når man klikker ikonet i verktøylinja. Folk finner
+       ikke utvidelser de ikke har sett – derfor vises både ikonraden og
+       panelet, med en pil som knytter dem sammen. */
+    .verktoylinje {
+      display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+      background: oklch(0.982 0.007 266); border-bottom: 1px solid var(--line); padding: 7px 10px;
+    }
+    .ikon {
+      width: 20px; height: 20px; border-radius: 5px; background: oklch(0.93 0.018 266);
+    }
+    .ikon.vaar {
+      background: #fff; border: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      animation: pulser 5s ease-in-out infinite;
+    }
+    .ikon.vaar img { width: 13px; height: 13px; }
+    @keyframes pulser {
+      0%, 10%   { box-shadow: 0 0 0 0 rgba(13,148,136,.55); }
+      22%, 100% { box-shadow: 0 0 0 7px rgba(13,148,136,0); }
+    }
+    .panel {
+      width: 236px; margin: 10px 10px 12px auto;
+      background: #fff; border: 1px solid var(--line); border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(20,20,20,.14); padding: 10px;
+      transform-origin: top right;
+      animation: spretteInn 5s ease-in-out infinite;
+    }
+    .panel-topp {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 8px; margin-bottom: 9px;
+    }
+    .panel-tittel { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; }
+    .panel-tittel img { width: 15px; height: 15px; }
+    .rad {
+      border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px;
+      font-size: 12px; margin-bottom: 6px; display: flex;
+      justify-content: space-between; gap: 8px; color: var(--ink);
+    }
+    .rad.best { border-color: var(--accent); background: oklch(0.96 0.02 262); font-weight: 500; }
+    .rad .belop { white-space: nowrap; }
+
+    .demo {
+      margin: 16px 0 28px;          /* bare knappen – ingen boks rundt */
+    }
+    .demo p { font-size: 14px; color: var(--ink); margin-bottom: 14px; line-height: 1.5; }
+    #demo-btn {
+      display: block; text-align: center; background: var(--accent); color: #fff;
+      text-decoration: none; padding: 13px; border-radius: 10px;
+      font-weight: 600; font-size: 15px;
+    }
+    #demo-btn:hover { opacity: .92; }
+    .foot { margin-top: 24px; font-size: 12.5px; color: var(--faint); text-align: center; }
+    .foot a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">
+      <img src="images/prico.svg" alt="Prico" />
+      <span>Prico</span>
+    </div>
+    <h1>Du er klar! Trykk knappen under for et eksempel</h1>
+
+    <!-- PRØV SELV: øverst, rett under overskrifta. Teksten i boksen skrives av
+         onboarding.js (se «TEKST PÅ DEMO-BOKSEN» der); linja under vises bare
+         mens den laster. -->
+    <div class="demo">
+      <p id="demo-text" style="display: none;"></p>
+      <a id="demo-btn" href="#" target="_blank" style="display: none;">Klikk meg for eksempel ↗</a>
+    </div>
+
+    <div class="step">
+      <div class="num">1</div>
+      <div><b>Handle som normalt</b>
+        <span>Besøk produktsider i norske nettbutikker, akkurat som du pleier.</span></div>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <div><b>Vi sjekker prisen automatisk</b>
+        <span>Sammenligner varer mot <b id="antall-butikker">alle</b> norske nettbutikker.</span></div>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <div><b>Få varsel hvis den er billigere et annet sted</b>
+        <span>Et lite varsel dukker opp med butikk, pris og lenke rett til det bedre tilbudet.</span></div>
+    </div>
+
+    <div class="forhandsvisning">
+      <div class="nettleser">
+        <div class="nettleser-bar">
+          <span class="prikk"></span><span class="prikk"></span><span class="prikk"></span>
+          <div class="adresse">nettbutikk.no/produkt/…</div>
+        </div>
+        <div class="nettleser-side">
+          <div class="vare-bilde"></div>
+          <div class="vare-linjer">
+            <div class="linje"></div>
+            <div class="linje kort"></div>
+            <div class="linje pris"></div>
+          </div>
+          <div class="mini-toast">
+            <div class="mini-topp">
+              <div class="venstre">
+                <img src="images/prico.svg" alt="" />
+                <span class="mini-tittel"><b>Prico</b></span>
+              </div>
+              <span class="mini-lukk">&times;</span>
+            </div>
+            <div class="mini-knapp"><span>Billigere hos <b>en annen butikk</b>&nbsp;↗</span><span class="belop">168,-</span></div>
+            <div class="mini-spar"><span>Her: <s>199,-</s></span><span class="pille">Spar 31,-</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="bildetekst">Slik ser varselet ut, øverst til høyre på produktsida.</p>
+    </div>
+
+    <div class="step" style="margin-top: 24px;">
+      <div class="num">4</div>
+      <div><b>Eller sjekk selv når som helst</b>
+        <span>Klikk på puslespillikonet i verktøylinja, så ser du alle prisene på varen du står på.</span></div>
+    </div>
+
+    <div class="forhandsvisning">
+      <div class="nettleser">
+        <div class="verktoylinje">
+          <span class="ikon"></span>
+          <span class="ikon"></span>
+          <span class="ikon vaar"><img src="images/prico.svg" alt="" /></span>
+        </div>
+        <div class="panel">
+          <div class="panel-topp">
+            <span class="panel-tittel"><img src="images/prico.svg" alt="" /> Prico</span>
+            <span class="mini-lukk">&times;</span>
+          </div>
+          <div class="rad best"><span>A. billigst</span><span class="belop">153,-</span></div>
+          <div class="rad"><span>B.</span><span class="belop">168,-</span></div>
+          <div class="rad" style="margin-bottom: 0;"><span>C.</span><span class="belop">179,-</span></div>
+        </div>
+      </div>
+      <p class="bildetekst">Klikk ikonet, så ser du alle prisene med den billigste først.</p>
+    </div>
+
+    <!-- Ingen lenker til prico.no her (23. sept. 2026): nettsida bygges
+         om, og en lenke til noe som ikke virker er verre enn ingen lenke.
+         Personvernerklæringa ligger uansett på butikkoppføringa i Chrome
+         Web Store, som er der Google krever den. -->
+    <div class="foot">
+      Ingen konto · ingen reklame · vi selger ikke data
+    </div>
+  </div>
+  <script src="onboarding.js"></script>
+</body>
+</html>

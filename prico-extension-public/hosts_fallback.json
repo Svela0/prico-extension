@@ -1,0 +1,611 @@
+{
+ "hosts": {
+  "24hshop.no": {
+   "retailer": "24hshop",
+   "navn": "24hshop"
+  },
+  "3djake.no": {
+   "retailer": "3djake",
+   "navn": "3DJake"
+  },
+  "acnestudios.com": {
+   "retailer": "acne",
+   "navn": "Acne Studios"
+  },
+  "addnature.no": {
+   "retailer": "addnature",
+   "navn": "Addnature"
+  },
+  "antonsport.no": {
+   "retailer": "antonsport",
+   "navn": "Anton Sport"
+  },
+  "apomed.no": {
+   "retailer": "apomed",
+   "navn": "Apomed"
+  },
+  "apotek1.no": {
+   "retailer": "apotek1",
+   "navn": "Apotek 1"
+  },
+  "apotekfordeg.no": {
+   "retailer": "apotekfordeg",
+   "navn": "Apotek for deg"
+  },
+  "apotera.no": {
+   "retailer": "apotera",
+   "navn": "Apotera"
+  },
+  "ark.no": {
+   "retailer": "ark",
+   "navn": "ARK"
+  },
+  "asos.com": {
+   "retailer": "asos",
+   "navn": "ASOS"
+  },
+  "autodoc.co.no": {
+   "retailer": "autodoc",
+   "navn": "Autodoc"
+  },
+  "avxperten.no": {
+   "retailer": "avxperten",
+   "navn": "avXperten"
+  },
+  "bakerenogkokken.no": {
+   "retailer": "bakerenogkokken",
+   "navn": "Bakeren og Kokken"
+  },
+  "bangerhead.no": {
+   "retailer": "bangerhead",
+   "navn": "Bangerhead"
+  },
+  "barnashus.no": {
+   "retailer": "barnashus",
+   "navn": "Barnas Hus"
+  },
+  "beautycos.no": {
+   "retailer": "beautycos",
+   "navn": "Beautycos"
+  },
+  "bilxtra.no": {
+   "retailer": "bilxtra",
+   "navn": "BilXtra"
+  },
+  "blivakker.no": {
+   "retailer": "blivakker",
+   "navn": "Blivakker"
+  },
+  "boots.no": {
+   "retailer": "boots",
+   "navn": "Boots"
+  },
+  "boozt.com": {
+   "retailer": "boozt",
+   "navn": "Boozt"
+  },
+  "braasport.no": {
+   "retailer": "braasport",
+   "navn": "Braasport"
+  },
+  "byggern.no": {
+   "retailer": "byggern",
+   "navn": "Bygger'n"
+  },
+  "byggmakker.no": {
+   "retailer": "byggmakker",
+   "navn": "Byggmakker"
+  },
+  "careofcarl.no": {
+   "retailer": "careofcarl",
+   "navn": "Care of Carl"
+  },
+  "cdon.no": {
+   "retailer": "cdon",
+   "navn": "CDON"
+  },
+  "cg.no": {
+   "retailer": "christiania_glasmagasin",
+   "navn": "Christiania Glasmagasin"
+  },
+  "clasohlson.com": {
+   "retailer": "clasohlson",
+   "navn": "Clas Ohlson"
+  },
+  "coolshop.no": {
+   "retailer": "coolshop",
+   "navn": "Coolshop"
+  },
+  "csmegastore.no": {
+   "retailer": "csmegastore",
+   "navn": "CS Megastore"
+  },
+  "deal.no": {
+   "retailer": "deal",
+   "navn": "Deal"
+  },
+  "dustin.no": {
+   "retailer": "dustin",
+   "navn": "Dustin"
+  },
+  "dyrlegeshop.no": {
+   "retailer": "dyrlegeshop",
+   "navn": "Dyrlegeshop"
+  },
+  "eldirekte.no": {
+   "retailer": "eldirekte",
+   "navn": "Eldirekte"
+  },
+  "elektroimportoren.no": {
+   "retailer": "elektroimportoren",
+   "navn": "Elektroimportøren"
+  },
+  "elkjop.no": {
+   "retailer": "elkjop",
+   "navn": "Elkjøp"
+  },
+  "ellos.no": {
+   "retailer": "ellos",
+   "navn": "Ellos"
+  },
+  "elon.no": {
+   "retailer": "elon",
+   "navn": "Elon"
+  },
+  "eplehuset.no": {
+   "retailer": "eplehuset",
+   "navn": "Eplehuset"
+  },
+  "eurodel.no": {
+   "retailer": "eurodel",
+   "navn": "Eurodel"
+  },
+  "eurosko.com": {
+   "retailer": "eurosko",
+   "navn": "Eurosko"
+  },
+  "extra-leker.no": {
+   "retailer": "extraleker",
+   "navn": "Extra Leker"
+  },
+  "farmasiet.no": {
+   "retailer": "farmasiet",
+   "navn": "Farmasiet"
+  },
+  "fjellsport.no": {
+   "retailer": "fjellsport",
+   "navn": "Fjellsport"
+  },
+  "foto.no": {
+   "retailer": "foto",
+   "navn": "Foto.no"
+  },
+  "fredrikoglouisa.no": {
+   "retailer": "fredrik_louisa",
+   "navn": "Fredrik & Louisa"
+  },
+  "gamingbutikken.no": {
+   "retailer": "gamingbutikken",
+   "navn": "GamingButikken"
+  },
+  "gymgrossisten.no": {
+   "retailer": "gymgrossisten",
+   "navn": "Gymgrossisten"
+  },
+  "hifiklubben.no": {
+   "retailer": "hifiklubben",
+   "navn": "Hi-Fi Klubben"
+  },
+  "hoyer.no": {
+   "retailer": "hoyer",
+   "navn": "Høyer"
+  },
+  "ideler.no": {
+   "retailer": "ideler",
+   "navn": "iDeler"
+  },
+  "illumsbolighus.no": {
+   "retailer": "illums",
+   "navn": "Illums Bolighus"
+  },
+  "intersport.no": {
+   "retailer": "intersport",
+   "navn": "Intersport"
+  },
+  "jernia.no": {
+   "retailer": "jernia",
+   "navn": "Jernia"
+  },
+  "kicks.no": {
+   "retailer": "kicks",
+   "navn": "KICKS"
+  },
+  "kitchentime.no": {
+   "retailer": "kitchentime",
+   "navn": "Kitchentime"
+  },
+  "kitchn.no": {
+   "retailer": "kitchn",
+   "navn": "Kitch'n"
+  },
+  "kjell.com": {
+   "retailer": "kjell",
+   "navn": "Kjell & Company"
+  },
+  "komplett.no": {
+   "retailer": "komplett",
+   "navn": "Komplett"
+  },
+  "kost1.no": {
+   "retailer": "kost1",
+   "navn": "Kost1"
+  },
+  "ledonline.no": {
+   "retailer": "ledonline",
+   "navn": "LEDonline"
+  },
+  "lekekassen.no": {
+   "retailer": "lekekassen",
+   "navn": "Lekekassen"
+  },
+  "lekia.no": {
+   "retailer": "lekia",
+   "navn": "Lekia"
+  },
+  "life.no": {
+   "retailer": "life",
+   "navn": "Life"
+  },
+  "lightup.no": {
+   "retailer": "lightup",
+   "navn": "Lightup.no"
+  },
+  "lyko.com": {
+   "retailer": "lyko",
+   "navn": "Lyko"
+  },
+  "magasin.no": {
+   "retailer": "magasin",
+   "navn": "Magasin"
+  },
+  "maxbo.no": {
+   "retailer": "maxbo",
+   "navn": "Maxbo"
+  },
+  "maxgaming.no": {
+   "retailer": "maxgaming",
+   "navn": "MaxGaming"
+  },
+  "med24.no": {
+   "retailer": "med24",
+   "navn": "Med24"
+  },
+  "megaflis.no": {
+   "retailer": "megaflis",
+   "navn": "Megaflis"
+  },
+  "mekster.no": {
+   "retailer": "mekster",
+   "navn": "Mekster"
+  },
+  "monter.no": {
+   "retailer": "monter",
+   "navn": "Monter"
+  },
+  "motorpart.no": {
+   "retailer": "motorpart",
+   "navn": "Motor Part"
+  },
+  "multicom.no": {
+   "retailer": "multicom",
+   "navn": "Multicom"
+  },
+  "musti.no": {
+   "retailer": "musti",
+   "navn": "Musti"
+  },
+  "netonnet.no": {
+   "retailer": "netonnet",
+   "navn": "NetOnNet"
+  },
+  "nordicfeel.com": {
+   "retailer": "nordicfeel",
+   "navn": "NordicFeel"
+  },
+  "nordicfeel.no": {
+   "retailer": "nordicfeel",
+   "navn": "NordicFeel"
+  },
+  "nordicnest.no": {
+   "retailer": "nordicnest",
+   "navn": "Nordic Nest"
+  },
+  "norli.no": {
+   "retailer": "norli",
+   "navn": "Norli"
+  },
+  "obs.no": {
+   "retailer": "obs",
+   "navn": "Obs"
+  },
+  "obsbygg.no": {
+   "retailer": "obsbygg",
+   "navn": "Obs Bygg"
+  },
+  "outland.no": {
+   "retailer": "outland",
+   "navn": "Outland"
+  },
+  "outnorth.com": {
+   "retailer": "outnorth",
+   "navn": "Outnorth"
+  },
+  "outnorth.no": {
+   "retailer": "outnorth",
+   "navn": "Outnorth"
+  },
+  "parfym.no": {
+   "retailer": "parfym",
+   "navn": "Parfym.no"
+  },
+  "petxl.no": {
+   "retailer": "petxl",
+   "navn": "PetXL"
+  },
+  "power.no": {
+   "retailer": "power",
+   "navn": "POWER"
+  },
+  "proshop.no": {
+   "retailer": "proshop",
+   "navn": "Proshop"
+  },
+  "ringo.no": {
+   "retailer": "ringo",
+   "navn": "Ringo"
+  },
+  "royaldesign.no": {
+   "retailer": "royaldesign",
+   "navn": "Royal Design"
+  },
+  "skruvat.no": {
+   "retailer": "skruvat",
+   "navn": "Skruvat"
+  },
+  "sport1.no": {
+   "retailer": "sport1",
+   "navn": "Sport 1"
+  },
+  "sportsnett.no": {
+   "retailer": "sportsnett",
+   "navn": "Sportsnett"
+  },
+  "sprell.no": {
+   "retailer": "sprell",
+   "navn": "Sprell"
+  },
+  "staypro.no": {
+   "retailer": "staypro",
+   "navn": "Staypro"
+  },
+  "sunkost.no": {
+   "retailer": "sunkost",
+   "navn": "Sunkost"
+  },
+  "thansen.no": {
+   "retailer": "thansen",
+   "navn": "Thansen"
+  },
+  "tilbords.no": {
+   "retailer": "tilbords",
+   "navn": "Tilbords"
+  },
+  "vetzoo.no": {
+   "retailer": "vetzoo",
+   "navn": "VetZoo"
+  },
+  "villoid.no": {
+   "retailer": "villoid",
+   "navn": "Villoid"
+  },
+  "vita.no": {
+   "retailer": "vita",
+   "navn": "VITA"
+  },
+  "vitusapotek.no": {
+   "retailer": "vitusapotek",
+   "navn": "Vitusapotek"
+  },
+  "vpg.no": {
+   "retailer": "vpg",
+   "navn": "VPG"
+  },
+  "www.3djake.no": {
+   "retailer": "3djake",
+   "navn": "3DJake"
+  },
+  "www.addnature.no": {
+   "retailer": "addnature",
+   "navn": "Addnature"
+  },
+  "www.beautycos.no": {
+   "retailer": "beautycos",
+   "navn": "Beautycos"
+  },
+  "www.eplehuset.no": {
+   "retailer": "eplehuset",
+   "navn": "Eplehuset"
+  },
+  "www.gamingbutikken.no": {
+   "retailer": "gamingbutikken",
+   "navn": "GamingButikken"
+  },
+  "www.gymgrossisten.no": {
+   "retailer": "gymgrossisten",
+   "navn": "Gymgrossisten"
+  },
+  "www.kost1.no": {
+   "retailer": "kost1",
+   "navn": "Kost1"
+  },
+  "www.ledonline.no": {
+   "retailer": "ledonline",
+   "navn": "LEDonline"
+  },
+  "www.life.no": {
+   "retailer": "life",
+   "navn": "Life"
+  },
+  "www.lightup.no": {
+   "retailer": "lightup",
+   "navn": "Lightup.no"
+  },
+  "www.mekster.no": {
+   "retailer": "mekster",
+   "navn": "Mekster"
+  },
+  "www.motorpart.no": {
+   "retailer": "motorpart",
+   "navn": "Motor Part"
+  },
+  "www.outnorth.com": {
+   "retailer": "outnorth",
+   "navn": "Outnorth"
+  },
+  "www.sunkost.no": {
+   "retailer": "sunkost",
+   "navn": "Sunkost"
+  },
+  "xn--verkty-fya.no": {
+   "retailer": "verktoy",
+   "navn": "Verktøy.no"
+  },
+  "xxl.no": {
+   "retailer": "xxl",
+   "navn": "XXL"
+  },
+  "zalando.no": {
+   "retailer": "zalando",
+   "navn": "Zalando"
+  },
+  "zoo.no": {
+   "retailer": "zoo",
+   "navn": "ZOO.no"
+  },
+  "zooplus.no": {
+   "retailer": "zooplus",
+   "navn": "zooplus"
+  }
+ },
+ "navn": {
+  "24hshop": "24hshop",
+  "3djake": "3DJake",
+  "acne": "Acne Studios",
+  "addnature": "Addnature",
+  "antonsport": "Anton Sport",
+  "apomed": "Apomed",
+  "apotek1": "Apotek 1",
+  "apotekfordeg": "Apotek for deg",
+  "apotera": "Apotera",
+  "ark": "ARK",
+  "asos": "ASOS",
+  "autodoc": "Autodoc",
+  "avxperten": "avXperten",
+  "bakerenogkokken": "Bakeren og Kokken",
+  "bangerhead": "Bangerhead",
+  "barnashus": "Barnas Hus",
+  "beautycos": "Beautycos",
+  "bilxtra": "BilXtra",
+  "blivakker": "Blivakker",
+  "boots": "Boots",
+  "boozt": "Boozt",
+  "braasport": "Braasport",
+  "byggern": "Bygger'n",
+  "byggmakker": "Byggmakker",
+  "careofcarl": "Care of Carl",
+  "cdon": "CDON",
+  "christiania_glasmagasin": "Christiania Glasmagasin",
+  "clasohlson": "Clas Ohlson",
+  "coolshop": "Coolshop",
+  "csmegastore": "CS Megastore",
+  "deal": "Deal",
+  "dustin": "Dustin",
+  "dyrlegeshop": "Dyrlegeshop",
+  "eldirekte": "Eldirekte",
+  "elektroimportoren": "Elektroimportøren",
+  "elkjop": "Elkjøp",
+  "ellos": "Ellos",
+  "elon": "Elon",
+  "eplehuset": "Eplehuset",
+  "eurodel": "Eurodel",
+  "eurosko": "Eurosko",
+  "extraleker": "Extra Leker",
+  "farmasiet": "Farmasiet",
+  "fjellsport": "Fjellsport",
+  "foto": "Foto.no",
+  "fredrik_louisa": "Fredrik & Louisa",
+  "gamingbutikken": "GamingButikken",
+  "gymgrossisten": "Gymgrossisten",
+  "hifiklubben": "Hi-Fi Klubben",
+  "hoyer": "Høyer",
+  "ideler": "iDeler",
+  "illums": "Illums Bolighus",
+  "intersport": "Intersport",
+  "jernia": "Jernia",
+  "kicks": "KICKS",
+  "kitchentime": "Kitchentime",
+  "kitchn": "Kitch'n",
+  "kjell": "Kjell & Company",
+  "komplett": "Komplett",
+  "kost1": "Kost1",
+  "ledonline": "LEDonline",
+  "lekekassen": "Lekekassen",
+  "lekia": "Lekia",
+  "life": "Life",
+  "lightup": "Lightup.no",
+  "lyko": "Lyko",
+  "magasin": "Magasin",
+  "maxbo": "Maxbo",
+  "maxgaming": "MaxGaming",
+  "med24": "Med24",
+  "megaflis": "Megaflis",
+  "mekster": "Mekster",
+  "monter": "Monter",
+  "motorpart": "Motor Part",
+  "multicom": "Multicom",
+  "musti": "Musti",
+  "netonnet": "NetOnNet",
+  "nordicfeel": "NordicFeel",
+  "nordicnest": "Nordic Nest",
+  "norli": "Norli",
+  "obs": "Obs",
+  "obsbygg": "Obs Bygg",
+  "outland": "Outland",
+  "outnorth": "Outnorth",
+  "parfym": "Parfym.no",
+  "petxl": "PetXL",
+  "power": "POWER",
+  "proshop": "Proshop",
+  "ringo": "Ringo",
+  "royaldesign": "Royal Design",
+  "skruvat": "Skruvat",
+  "sport1": "Sport 1",
+  "sportsnett": "Sportsnett",
+  "sprell": "Sprell",
+  "staypro": "Staypro",
+  "sunkost": "Sunkost",
+  "thansen": "Thansen",
+  "tilbords": "Tilbords",
+  "verktoy": "Verktøy.no",
+  "vetzoo": "VetZoo",
+  "villoid": "Villoid",
+  "vita": "VITA",
+  "vitusapotek": "Vitusapotek",
+  "vpg": "VPG",
+  "xxl": "XXL",
+  "zalando": "Zalando",
+  "zoo": "ZOO.no",
+  "zooplus": "zooplus"
+ },
+ "snapshot": "2026-11-18"
+}
